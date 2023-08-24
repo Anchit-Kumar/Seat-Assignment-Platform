@@ -78,10 +78,10 @@ function Employee() {
      <div className=''>
 
         <form className="create-employee">
-          <input onChange={handleChange} name="id" value={formEmployee.id} />
-          <input onChange={handleChange} text={formEmployee.name} name="name" value={formEmployee.name} />
-          <input onChange={handleChange} name="seat_num" value={formEmployee.seat_num} />
-          <input onChange={handleChange} name="days" value={formEmployee.days}/>
+          <input onChange={handleChange} name="id" placeholder="ID" value={formEmployee.id} />
+          <input onChange={handleChange} text={formEmployee.name} placeholder="Name" name="name" value={formEmployee.name} />
+          <input onChange={handleChange} name="seat_num" placeholder="Seat Number"  />
+          <input onChange={handleChange} name="days" placeholder="Days" value={formEmployee.days}/>
           <button onClick={createEmployee}>Add new employee</button>
         </form>
 
