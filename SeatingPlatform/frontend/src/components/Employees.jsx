@@ -74,39 +74,12 @@ function Employee() {
     
     function handleChangeSearch(event){
         setSearchedEmployee(event.target.value);
-        console.log(searchedEmployee);
     }
 
     function searchEmployee(event){
-        console.log("entered search employee");
-        //const result = employees.filter((employee) => String(employee.name) === String(searchedEmployee));
-        
-        console.log(employees);
         const result = employees.find((employee) => employee.name.toLowerCase() === searchedEmployee.toLowerCase());
         setDisplayEmployee(result);
         event.preventDefault();
-        
-        //setDisplayEmployee(result);
-
-        /*axios({
-            method: "GET",
-            url:"/employees/",
-          }).then((response)=>{
-            searchClick = true;
-            const data = response.data;
-            //console.log(data);
-            setTest(data);
-            //const result = data.filter((employee) => employee.name.toLowerCase() === searchedEmployee.toLowerCase())
-            //console.log(result);
-            //setDisplayEmployee(result);
-            //console.log(displayEmployee);
-          }).catch((error) => {
-            if (error.response) {
-              console.log(error.response);
-              console.log(error.response.status);
-              console.log(error.response.headers);
-              }
-          }) */
     }
 
 
