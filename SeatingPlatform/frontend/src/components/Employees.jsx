@@ -11,6 +11,9 @@ function Employee() {
       seat_num: null,
       days: ""
     })
+    const [searchedEmployee, setSearchedEmployee] = useState()
+    const [displayEmployee, setDisplayEmployee] = useState()
+
 
     useEffect(() => {
       getEmployees()
@@ -68,18 +71,75 @@ function Employee() {
         setFormEmployee(prevEmployee => ({
             ...prevEmployee, [name]: value})
         )}
+    
+    function handleChangeSearch(event){
+        setSearchedEmployee(event.target.value);
+        console.log(searchedEmployee);
+    }
+
+    function searchEmployee(event){
+        console.log("entered search employee");
+        //const result = employees.filter((employee) => String(employee.name) === String(searchedEmployee));
+        
+        console.log(employees);
+        const result = employees.find((employee) => employee.name.toLowerCase() === searchedEmployee.toLowerCase());
+        setDisplayEmployee(result);
+        event.preventDefault();
+        
+        //setDisplayEmployee(result);
+
+        /*axios({
+            method: "GET",
+            url:"/employees/",
+          }).then((response)=>{
+            searchClick = true;
+            const data = response.data;
+            //console.log(data);
+            setTest(data);
+            //const result = data.filter((employee) => employee.name.toLowerCase() === searchedEmployee.toLowerCase())
+            //console.log(result);
+            //setDisplayEmployee(result);
+            //console.log(displayEmployee);
+          }).catch((error) => {
+            if (error.response) {
+              console.log(error.response);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+              }
+          }) */
+    }
 
 
   return (
 
      <div className=''>
+        <div className="create">
+            <form className="create-employee" id="form1">
+            <input onChange={handleChange} text={formEmployee.name} placeholder="Name" name="name" value={formEmployee.name} />
+            <input onChange={handleChange} name="seat_num" placeholder="Seat Number" value={formEmployee.seat_num} />
+            <input onChange={handleChange} name="days" placeholder="Days" value={formEmployee.days}/>
+            <button onClick={createEmployee}>Add New Employee</button>
+            </form>
+        </div>
 
-        <form className="create-employee">
-          <input onChange={handleChange} text={formEmployee.name} placeholder="Name" name="name" value={formEmployee.name} />
-          <input onChange={handleChange} name="seat_num" placeholder="Seat Number" value={formEmployee.seat_num} />
-          <input onChange={handleChange} name="days" placeholder="Days" value={formEmployee.days}/>
-          <button onClick={createEmployee}>Add new employee</button>
-        </form>
+        <div className="search">
+            <form className="search-employee" id="form2">
+                <input onChange={handleChangeSearch} placeholder="Search Employee" />
+                <button onClick={searchEmployee}> Search </button>
+            </form>
+        </div>
+
+        { displayEmployee &&
+        <>
+        <h1>Searched Employee: </h1>
+        <List
+            key={displayEmployee.id}
+            id={displayEmployee.id}
+            name={displayEmployee.name}
+            seat_num={displayEmployee.seat_num}
+            days={displayEmployee.days}
+            deletion={DeleteEmployee} />
+        </>}
 
         { employees && employees.map(employee => <List
         key={employee.id}
