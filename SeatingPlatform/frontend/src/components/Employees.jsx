@@ -1,17 +1,20 @@
 import {useState, useEffect} from "react"
 import axios from "axios"
 import  List from "./List"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 
 
 function Employee() {
 
     const [employees , setNewEmployees] = useState(null)
     const [formEmployee, setFormEmployee] = useState({
-      name: "",
+      name: null,
       seat_num: null,
-      days: ""
+      days: null
     })
-    const [searchedEmployee, setSearchedEmployee] = useState()
+    const [searchedEmployee, setSearchedEmployee] = useState("")
     const [displayEmployee, setDisplayEmployee] = useState()
 
 
@@ -74,10 +77,15 @@ function Employee() {
     
     function handleChangeSearch(event){
         setSearchedEmployee(event.target.value);
+        const result =
+            employees.find((employee) => employee.name.toLowerCase().includes(searchedEmployee.toLowerCase()));
+        setDisplayEmployee(result);
+        event.preventDefault();
     }
 
     function searchEmployee(event){
-        const result = employees.find((employee) => employee.name.toLowerCase() === searchedEmployee.toLowerCase());
+        const result = 
+            employees.find((employee) => employee.name.toLowerCase() === searchedEmployee.toLowerCase());
         setDisplayEmployee(result);
         event.preventDefault();
     }
@@ -88,33 +96,56 @@ function Employee() {
      <div className=''>
         <div className="create">
             <form className="create-employee" id="form1">
-            <input onChange={handleChange} text={formEmployee.name} placeholder="Name" name="name" value={formEmployee.name} />
-            <input onChange={handleChange} name="seat_num" placeholder="Seat Number" value={formEmployee.seat_num} />
-            <input onChange={handleChange} name="days" placeholder="Days" value={formEmployee.days}/>
-            <button onClick={createEmployee}>Add New Employee</button>
+            <input type="text"
+            onChange={handleChange}
+            placeholder="Name"
+            name="name"
+            value={formEmployee.name}
+            />
+            <input onChange={handleChange} 
+            type="number"
+            name="seat_num"
+            placeholder="Seat Number"
+            value={formEmployee.seat_num}
+            />
+            <input onChange={handleChange} 
+            type="text"
+            name="days" 
+            placeholder="Days" 
+            value={formEmployee.days}
+            />
+            <button class="w3-button w3-circle w3-large w3-black"
+            onClick={createEmployee}><FontAwesomeIcon icon={faPlus} /></button>
             </form>
         </div>
 
         <div className="search">
             <form className="search-employee" id="form2">
-                <input onChange={handleChangeSearch} placeholder="Search Employee" />
-                <button onClick={searchEmployee}> Search </button>
+                <input onChange={handleChangeSearch}
+                type="text" 
+                placeholder="Search Employee" 
+                value={searchedEmployee}/>
+                <button class="w3-button w3-circle w3-large w3-card-4" onClick={searchEmployee} > 
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </button>
             </form>
         </div>
 
         { displayEmployee &&
-        <>
-        <h1>Searched Employee: </h1>
+        <div class="w3-card w3-container" style={{width: '40%', height:'270px', backgroundColor: '#6bcef2'}} >
         <List
+            title= 'Searched Employee'
             key={displayEmployee.id}
             id={displayEmployee.id}
             name={displayEmployee.name}
             seat_num={displayEmployee.seat_num}
             days={displayEmployee.days}
             deletion={DeleteEmployee} />
-        </>}
+        </div>}
 
-        { employees && employees.map(employee => <List
+        { employees && employees.map(employee => 
+        <div class="w3-card w3-container" style={{width: '40%', height:'270px', backgroundColor: '#a2fadd'}}>
+        <List
         key={employee.id}
         id={employee.id}
         name={employee.name}
@@ -122,6 +153,7 @@ function Employee() {
         days={employee.days}
         deletion ={DeleteEmployee}
         />
+        </div>
         )}
 
     </div>

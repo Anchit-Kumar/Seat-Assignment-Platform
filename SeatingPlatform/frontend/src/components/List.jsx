@@ -4,6 +4,7 @@ function List(props){
 }
   return (
       <div className="employee">
+        <h1> {props.title}</h1>
         <h2 >  Name: {props.name} </h2>
         <p > Seat Number: {props.seat_num}</p>
         <p > Days: {props.days}</p>
