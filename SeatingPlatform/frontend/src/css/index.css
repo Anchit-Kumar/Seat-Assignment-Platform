@@ -1,0 +1,50 @@
+.separation{
+    display: flex;
+}
+
+.display-card {
+    width: 30%;
+    background: linear-gradient(0,#02aabdc2,#00cdac85);
+    margin: 20px;
+    padding: 10px 20px;
+    box-shadow: 0px 0px 10px 1px #e8e8e8;
+    border: 1px solid #c4c3c3;
+}
+
+.parent-display {
+    display: flex;
+    flex-flow: wrap;
+}
+
+.left-sep {
+    flex: 1;
+}
+
+.right-sep{
+    width: 40%;
+}
+
+.search-card{
+    background: linear-gradient(0deg,#90d5e766 0,#00d4ff94);
+    margin: 20px;
+    padding: 10px 20px;
+    box-shadow: 0px 0px 10px 1px #e8e8e8;
+    border: 1px solid #c4c3c3;
+}
+
+.employees {
+    background: #adeee9;
+    height: 100%;
+}
+
+.nav-item :hover{
+    background: #7de0d8
+}
+
+.navbar-style{
+    background: #47e0d475;
+}
+
+.dropdown-item-style :hover{
+    background: #2dc0b3
+}

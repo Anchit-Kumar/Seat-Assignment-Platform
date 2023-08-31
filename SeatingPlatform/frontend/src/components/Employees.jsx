@@ -93,69 +93,82 @@ function Employee() {
 
   return (
 
-     <div className=''>
-        <div className="create">
-            <form className="create-employee" id="form1">
-            <input type="text"
-            onChange={handleChange}
-            placeholder="Name"
-            name="name"
-            value={formEmployee.name}
-            />
-            <input onChange={handleChange} 
-            type="number"
-            name="seat_num"
-            placeholder="Seat Number"
-            value={formEmployee.seat_num}
-            />
-            <input onChange={handleChange} 
-            type="text"
-            name="days" 
-            placeholder="Days" 
-            value={formEmployee.days}
-            />
-            <button class="w3-button w3-circle w3-large w3-black"
-            onClick={createEmployee}><FontAwesomeIcon icon={faPlus} /></button>
-            </form>
-        </div>
+     <div className='employees'>
+        <div className='separation'>
+            <div className='left-sep'>
+            <div className="create">
+                <form className="create-employee" id="form1">
+                <input type="text"
+                onChange={handleChange}
+                placeholder="Name"
+                name="name"
+                value={formEmployee.name}
+                />
+                <input onChange={handleChange} 
+                type="number"
+                name="seat_num"
+                placeholder="Seat Number"
+                value={formEmployee.seat_num}
+                />
+                <input onChange={handleChange} 
+                type="text"
+                name="days" 
+                placeholder="Days" 
+                value={formEmployee.days}
+                />
+                <button class="w3-button w3-circle w3-large w3-black"
+                onClick={createEmployee}><FontAwesomeIcon icon={faPlus} /></button>
+                </form>
+            </div>
+            </div>
+            <div className="right-sep">
+                  <div className="search" style={{position: 'relative'}}>
+                      <form className="search-employee" id="form2">
+                          <input onChange={handleChangeSearch}
+                          type="text" 
+                          placeholder="Search Employee" 
+                          value={searchedEmployee}/>
+                          <button class="w3-button w3-circle w3-large w3-card-4" onClick={searchEmployee} > 
+                              <FontAwesomeIcon icon={faMagnifyingGlass} />
+                          </button>
+                      </form>
 
-        <div className="search">
-            <form className="search-employee" id="form2">
-                <input onChange={handleChangeSearch}
-                type="text" 
-                placeholder="Search Employee" 
-                value={searchedEmployee}/>
-                <button class="w3-button w3-circle w3-large w3-card-4" onClick={searchEmployee} > 
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </button>
-            </form>
-        </div>
+                      <div className="display-searched">
+                          { displayEmployee &&
+                          <div class="search-card" >
+                          <List
+                              title= 'Searched Employee'
+                              key={displayEmployee.id}
+                              id={displayEmployee.id}
+                              name={displayEmployee.name}
+                              seat_num={displayEmployee.seat_num}
+                              days={displayEmployee.days}
+                              deletion={DeleteEmployee} />
+                          </div>}
+                      </div>
+                  </div>
+            </div>
+  </div>
 
-        { displayEmployee &&
-        <div class="w3-card w3-container" style={{width: '40%', height:'270px', backgroundColor: '#6bcef2'}} >
-        <List
-            title= 'Searched Employee'
-            key={displayEmployee.id}
-            id={displayEmployee.id}
-            name={displayEmployee.name}
-            seat_num={displayEmployee.seat_num}
-            days={displayEmployee.days}
-            deletion={DeleteEmployee} />
-        </div>}
+            <div class="parent-display">
 
-        { employees && employees.map(employee => 
-        <div class="w3-card w3-container" style={{width: '40%', height:'270px', backgroundColor: '#a2fadd'}}>
-        <List
-        key={employee.id}
-        id={employee.id}
-        name={employee.name}
-        seat_num={employee.seat_num} 
-        days={employee.days}
-        deletion ={DeleteEmployee}
-        />
-        </div>
-        )}
+                    { employees && employees.map(employee => 
+                    <div class="display-card">
+                    <List
+                    key={employee.id}
+                    id={employee.id}
+                    name={employee.name}
+                    seat_num={employee.seat_num} 
+                    days={employee.days}
+                    deletion ={DeleteEmployee}
+                    />
+                    </div>
+                    )}
 
+
+
+            
+            </div>
     </div>
 
   );
