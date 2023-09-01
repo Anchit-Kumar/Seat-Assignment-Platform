@@ -38,7 +38,7 @@
 }
 
 .nav-item :hover{
-    background: #7de0d8
+    background: #7de0d8;
 }
 
 .navbar-style{
@@ -46,5 +46,21 @@
 }
 
 .dropdown-item-style :hover{
-    background: #2dc0b3
+    background: #2dc0b3;
+}
+
+.dropdown-item-style{
+    background: #7de0d8;
+}
+
+.nav-tabs .nav-item .nav-link.active {
+    background: #2dc0b3;
+  }
+
+.dropdown-item.active{
+    background: #2dc0b3;
+}
+
+.nav-tabs .nav-item .nav-link{
+    color: #000000;
 }

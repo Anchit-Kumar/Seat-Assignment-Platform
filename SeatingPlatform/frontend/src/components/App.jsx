@@ -24,22 +24,23 @@ function App() {
     <div className='App'>
         <Header/>
         <div>
-        <ul class="nav nav-tabs navbar-style" id="navbar">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+        
+        <ul class="nav nav-tabs navbar-style" id="navbar" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Seat Assignment View</a>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link dropdown-toggle" id="profile-tab" data-bs-toggle="dropdown" type="button" role="dropdown" aria-controls="profile-tab-pane" aria-selected="false">Seat Assignment View</button>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-item-style"><a class="dropdown-item" href="#">Monday</a></li>
-                        <li class="dropdown-item-style"><a class="dropdown-item" href="#">Tuesday</a></li>
-                        <li class="dropdown-item-style"><a class="dropdown-item" href="#">Wednesday</a></li>
-                        <li class="dropdown-item-style"><a class="dropdown-item" href="#">Thursday</a></li>
-                        <li class="dropdown-item-style"><a class="dropdown-item" href="#">Friday</a></li>
-                    </ul>
+                            <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Monday</a></li>
+                            <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Tuesday</a></li>
+                            <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Wednesday</a></li>
+                            <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Thursday</a></li>
+                            <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Friday</a></li>
+                        </ul>
             </li>
-            <li class="nav-item">
-                <a class="nav-link">Modify Data</a>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Modify</button>
             </li>
         </ul>
 

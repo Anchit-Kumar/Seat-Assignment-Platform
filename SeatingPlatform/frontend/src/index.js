@@ -10,6 +10,16 @@ $( '#topheader .navbar-nav a' ).on( 'click', function () {
 	$( this ).parent( 'li' ).addClass( 'active' );
 });
 
+const triggerTabList = document.querySelectorAll('#navbar button')
+triggerTabList.forEach(triggerEl => {
+  const tabTrigger = new bootstrap.Tab(triggerEl)
+
+  triggerEl.addEventListener('click', event => {
+    event.preventDefault()
+    tabTrigger.show()
+  })
+})
+
 const dropdownElementList = document.querySelectorAll('.dropdown-toggle')
 const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl))
 
