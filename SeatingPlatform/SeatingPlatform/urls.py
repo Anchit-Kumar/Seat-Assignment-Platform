@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import front, employee, employee_detail
+from core.views import front, employee, employee_detail, seating_chart_state
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", front, name="front"),
     path("employees/", employee, name="employee"),
     path("employees/<int:pk>/", employee_detail, name="detail"),
+    path('seating-chart-state/', seating_chart_state, name='seating-chart-state'),
 ]

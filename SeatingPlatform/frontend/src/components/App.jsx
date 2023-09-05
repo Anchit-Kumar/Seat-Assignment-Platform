@@ -1,8 +1,11 @@
 import { useState } from "react";
 import Employee from "./Employees"
-import Employee2 from "./Employee2";
 import Header from "./Header";
 import Footer from "./Footer";
+import SeatingChart from "./SeatingChart";
+import Projects from "./Projects";
+import ProjectSpaces from "./ProjectSpaces";
+import ToggableGrid from "./ToggableGrid";
 
 
 
@@ -13,9 +16,15 @@ function App() {
                 case "Employee":
                     curpage = <Employee/>
                     break;
-                case "Employee2" :
-                    curpage = <Employee2/>
+                case "SeatingChart" :
+                    curpage = <SeatingChart/>
                     break;
+                case "Projects":
+                    curpage = <Projects/>
+                    break;
+                case "ProjectSpaces" :
+                    curpage = <ProjectSpaces/>
+                    break;                    
                 default :
                     curpage = <Employee/>
                     break;
@@ -27,27 +36,28 @@ function App() {
         
         <ul class="nav nav-tabs navbar-style" id="navbar" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>
+                <button onClick={()=>setPage("Employee")} class="nav-link active" id="home-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link dropdown-toggle" id="profile-tab" data-bs-toggle="dropdown" type="button" role="dropdown" aria-controls="profile-tab-pane" aria-selected="false">Seat Assignment View</button>
+                <button class="nav-link dropdown-toggle" id="seat-view" data-bs-toggle="dropdown" type="button" role="dropdown" aria-controls="profile-tab-pane" aria-selected="false">Seat Assignment View</button>
                     <ul class="dropdown-menu">
                             <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Monday</a></li>
                             <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Tuesday</a></li>
                             <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Wednesday</a></li>
                             <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Thursday</a></li>
                             <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Friday</a></li>
-                        </ul>
+                    </ul>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Modify</button>
+                <button class="nav-link dropdown-toggle" id="modify" data-bs-toggle="dropdown" type="button" role="dropdown" aria-controls="profile-tab-pane" aria-selected="false">Modify Data</button>
+                    <ul class="dropdown-menu">
+                            <li class="dropdown-item-style"><button onClick={()=>setPage("SeatingChart")} class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Seating Chart</button></li>
+                            <li class="dropdown-item-style"><button onClick={()=>setPage("Projects")} class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Projects</button></li>
+                            <li class="dropdown-item-style"><button onClick={()=>setPage("ProjectSpaces")} class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Project Spaces</button></li>
+                    </ul>
             </li>
         </ul>
 
-            {/*
-            <button class="w3-button w3-theme"
-             onClick={()=>setPage("Employee2")  }> Change Page </button>
-            */}
         <div>
         {
             curpage

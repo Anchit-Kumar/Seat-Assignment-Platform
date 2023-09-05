@@ -1,4 +1,5 @@
 from django.db import models
+import json
 
 # Create your models here.
 class Employees(models.Model):
@@ -8,3 +9,10 @@ class Employees(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+class SeatingChartState(models.Model):
+    state_data = models.JSONField()
+    rows = models.IntegerField(default=4)
+    cols = models.IntegerField(default=4)

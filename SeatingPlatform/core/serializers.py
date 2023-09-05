@@ -1,7 +1,12 @@
 from rest_framework import serializers
-from .models import Employees
+from .models import Employees, SeatingChartState
 
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employees
-        fields = ('id', 'name', 'seat_num', 'days')
+        fields = '__all__'
+
+class SeatingChartStateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeatingChartState
+        fields = '__all__'

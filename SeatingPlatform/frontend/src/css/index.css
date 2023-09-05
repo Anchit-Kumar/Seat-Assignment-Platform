@@ -64,3 +64,46 @@
 .nav-tabs .nav-item .nav-link{
     color: #000000;
 }
+
+.seating-grid {
+    display: grid;
+    grid-template-columns: 10rem 10rem 10rem;
+    grid-gap: 1rem;
+    grid-auto-flow: row;
+  }
+
+/* Add your CSS styling here */
+.toggleable-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .grid-row {
+    display: flex;
+  }
+  
+  .grid-cell {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .grid-cell.green {
+    background-color: green;
+  }
+  
+  .grid-cell.red {
+    background-color: red;
+  }
+
+  .set-seating{
+    flex: 1
+}
+
+  .display-seating{
+    width: 40%
+}

@@ -4,12 +4,12 @@ import  List from "./List"
 
 
 
-function Employee2() {
+function Projects() {
 
     return(
         <div>
-            The new page is rendering 
+            Projects 
         </div>
     )
 }
-export default Employee2;
+export default Projects;
