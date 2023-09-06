@@ -107,3 +107,31 @@
   .display-seating{
     width: 40%
 }
+
+
+.asssigned-seating-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .indexed-grid-row {
+    display: flex;
+  }
+  
+  .indexed-grid-cell {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .indexed-grid-cell.black {
+    background-color: black;
+  }
+  
+  .indexed-grid-cell.refcolor {
+    background-color: #4ef5d9;
+  }

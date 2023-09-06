@@ -13,6 +13,14 @@ class Employees(models.Model):
 
 
 class SeatingChartState(models.Model):
+    # stores the grid in 2D array format where each element is a boolean indicating
+    # if the seat is toggled valid or invalid
     state_data = models.JSONField()
     rows = models.IntegerField(default=4)
     cols = models.IntegerField(default=4)
+
+class IndexedSeating(models.Model):
+    # this array holds false if invalid and the index of the seat if valid
+    indexed_array = models.JSONField()
+    valid_seats = models.JSONField()
+    

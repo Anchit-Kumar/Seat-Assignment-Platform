@@ -18,6 +18,15 @@ function SeatingChart() {
             }).catch((error) => {
                 console.error("Error fetching seating chart state:", error.response.data);
             });
+        
+        axios({
+            method: "GET",
+            url:"/indexed-seating/",
+        }).then((response) => {
+                setIndexedGrid(response.data.indexed_array || initialGrid);
+            }).catch((error) => {
+                console.error("Error fetching seating chart state:", error.response.data);
+            });
     }, []);
 
 
@@ -37,6 +46,7 @@ function SeatingChart() {
     
 
     const [grid, setGrid] = useState(initialGrid);
+    const [indexedGrid, setIndexedGrid] = useState(initialGrid);
 
     const handleSet = () => {
         
@@ -87,12 +97,69 @@ function SeatingChart() {
         return cellValue ? 'green' : 'red';
     };
 
+    const getIndexedCellColor = (cellValue) => {
+        if (cellValue === false){
+            return 'black';
+        }
+        else {
+            return '#4ef5d9';
+        }
+    };
+
     const handleChangeRow = (event) => {
         setGridRow(parseInt(event.target.value));
     };
 
     const handleChangeCol = (event) => {
         setGridCol(parseInt(event.target.value));
+    };
+
+    const handleAssignSeating = () => {
+        var valid_seats = [];
+        for (let i = 0; i < gridRow; i++){
+            for (let j = 0; j < gridCol; j++){
+                if (grid[i][j]){
+                    valid_seats.push({row: i, col: j});
+                }
+            }
+        }
+
+        console.log(valid_seats);
+
+        var indexed_array = [];
+
+        // creates 2D array of same size with all values as false 
+        for (let i = 0; i < gridRow; i++) {
+            const row = Array.from(Array(gridCol), () => false);
+            indexed_array.push(row);
+        }
+
+        // assigns number to each valid seat and leaves it as false if invalid
+        var counter = 1;
+        for (let i = 0; i < gridRow; i++){
+            for (let j = 0; j < gridCol; j++){
+                if (grid[i][j]){
+                    indexed_array[i][j] = counter;
+                    counter++;
+                }
+            }
+        }
+
+        console.log(valid_seats);
+        console.log(indexed_array);
+
+        setIndexedGrid(indexed_array);
+
+        axios({
+            method: "POST",
+            url: "/indexed-seating/",
+            data: { indexed_array: indexed_array, valid_seats: valid_seats }
+        }).then((response) => {
+            console.log("State saved successfully:", response.data);
+        }).catch((error) => {
+            console.error("Error saving seating chart state:", error.response.data);
+        });
+
     };
 
 
@@ -126,7 +193,23 @@ function SeatingChart() {
                     </div>
             </div>
             <div className="display-seating">
-                <button>Assign Seating</button>
+                <button onClick={handleAssignSeating}>Assign Seating</button>
+                <div className="assigned-seating-grid">
+                    {indexedGrid && indexedGrid.map((row, rowIndex) => (
+                    <div key={rowIndex} className="indexed-grid-row">
+                        {row.map((indexedCell, colIndex) => (
+                        <div
+                            key={colIndex}
+                            className="indexed-grid-cell"
+                            style={{ backgroundColor: getIndexedCellColor(indexedCell) }}
+                        >
+                            {/* You can customize the cell content here */}
+                            {indexedCell ? indexedCell : ''}
+                        </div>
+                        ))}
+                    </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import EmployeeSerializer, SeatingChartStateSerializer
-from .models import Employees, SeatingChartState
+from .serializers import EmployeeSerializer, SeatingChartStateSerializer, IndexedSeatingSerializer
+from .models import Employees, SeatingChartState, IndexedSeating
 
 
 # Create your views here.
@@ -48,6 +48,23 @@ def seating_chart_state(request):
     elif request.method == 'POST':
         # Save the newly toggled state
         serializer = SeatingChartStateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'POST'])
+def indexed_seating(request):
+    if request.method == 'GET':
+        # Retrieve the last saved indexed state
+        state_object = IndexedSeating.objects.last()
+        serializer = IndexedSeatingSerializer(state_object)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        # Save the newly indexed state
+        serializer = IndexedSeatingSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
