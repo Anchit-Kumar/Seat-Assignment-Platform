@@ -23,4 +23,6 @@ class IndexedSeating(models.Model):
     # this array holds false if invalid and the index of the seat if valid
     indexed_array = models.JSONField()
     valid_seats = models.JSONField()
-    
+    day_by_day_seating = models.JSONField(default=dict)
+    min_seats = models.IntegerField(default=0)
+    min_days = models.IntegerField(default=0)

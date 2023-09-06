@@ -5,7 +5,11 @@ import Footer from "./Footer";
 import SeatingChart from "./SeatingChart";
 import Projects from "./Projects";
 import ProjectSpaces from "./ProjectSpaces";
-import ToggableGrid from "./ToggableGrid";
+import Monday from "./Days/Monday";
+import Tuesday from "./Days/Tuesday";
+import Wednesday from "./Days/Wednesday";
+import Thursday from "./Days/Thursday";
+import Friday from "./Days/Friday";
 
 
 
@@ -24,7 +28,22 @@ function App() {
                     break;
                 case "ProjectSpaces" :
                     curpage = <ProjectSpaces/>
-                    break;                    
+                    break;  
+                case "Monday" :
+                    curpage = <Monday/>
+                    break; 
+                case "Tuesday" :
+                    curpage = <Tuesday/>
+                    break; 
+                case "Wednesday" :
+                    curpage = <Wednesday/>
+                    break; 
+                case "Thursday" :
+                    curpage = <Thursday/>
+                    break; 
+                case "Friday" :
+                    curpage = <Friday/>
+                    break;                   
                 default :
                     curpage = <Employee/>
                     break;
@@ -41,11 +60,11 @@ function App() {
             <li class="nav-item" role="presentation">
                 <button class="nav-link dropdown-toggle" id="seat-view" data-bs-toggle="dropdown" type="button" role="dropdown" aria-controls="profile-tab-pane" aria-selected="false">Seat Assignment View</button>
                     <ul class="dropdown-menu">
-                            <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Monday</a></li>
-                            <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Tuesday</a></li>
-                            <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Wednesday</a></li>
-                            <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Thursday</a></li>
-                            <li class="dropdown-item-style"><a class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Friday</a></li>
+                            <li class="dropdown-item-style"><a onClick={()=>setPage("Monday")} class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Monday</a></li>
+                            <li class="dropdown-item-style"><a onClick={()=>setPage("Tuesday")} class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Tuesday</a></li>
+                            <li class="dropdown-item-style"><a onClick={()=>setPage("Wednesday")} class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Wednesday</a></li>
+                            <li class="dropdown-item-style"><a onClick={()=>setPage("Thursday")} class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Thursday</a></li>
+                            <li class="dropdown-item-style"><a onClick={()=>setPage("Friday")} class="dropdown-item" role="tab" data-bs-toggle="tab" href="#">Friday</a></li>
                     </ul>
             </li>
             <li class="nav-item" role="presentation">

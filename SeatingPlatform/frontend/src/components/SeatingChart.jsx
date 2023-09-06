@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react"
 import axios from "axios"
-import  List from "./List"
+import  Employee from "./Employees"
 
 
 
@@ -24,14 +24,34 @@ function SeatingChart() {
             url:"/indexed-seating/",
         }).then((response) => {
                 setIndexedGrid(response.data.indexed_array || initialGrid);
+                setDaybyDay(response.data.day_by_day_seating || {});
+                setMinDays(response.data.min_days);
+                setMinSeats(response.data.min_seats);
             }).catch((error) => {
                 console.error("Error fetching seating chart state:", error.response.data);
+            });
+
+        axios({
+            method: "GET",
+            url:"/employees/",
+            }).then((response)=>{
+                const data = response.data;
+                setEmployees(data);
+            }).catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+                }
             });
     }, []);
 
 
     const [gridRow, setGridRow] = useState();
     const [gridCol, setGridCol] = useState();
+    const [employees, setEmployees] = useState();
+    const [minSeats, setMinSeats] = useState();
+    const [minDays, setMinDays] = useState();
     
 
     var numRows = 4;
@@ -47,14 +67,13 @@ function SeatingChart() {
 
     const [grid, setGrid] = useState(initialGrid);
     const [indexedGrid, setIndexedGrid] = useState(initialGrid);
+    const [dayByDay, setDaybyDay] = useState();
+    const [displayError, setDisplayError] = useState();
 
     const handleSet = () => {
         
         const newNumCols = gridCol;
         const newNumRows = gridRow;
-
-        console.log(newNumRows);
-        console.log(newNumCols);
 
         const newInitialGrid = [];
         for (let i = 0; i < newNumRows; i++) {
@@ -115,6 +134,9 @@ function SeatingChart() {
     };
 
     const handleAssignSeating = () => {
+
+        setDisplayError("");
+
         var valid_seats = [];
         for (let i = 0; i < gridRow; i++){
             for (let j = 0; j < gridCol; j++){
@@ -153,13 +175,96 @@ function SeatingChart() {
         axios({
             method: "POST",
             url: "/indexed-seating/",
-            data: { indexed_array: indexed_array, valid_seats: valid_seats }
+            data: { indexed_array: indexed_array, valid_seats: valid_seats, min_days: minDays, min_seats: minSeats }
         }).then((response) => {
             console.log("State saved successfully:", response.data);
         }).catch((error) => {
             console.error("Error saving seating chart state:", error.response.data);
         });
 
+
+        // LOGIC FOR ASSIGNING EMPLOYEES DAY BY DAY BASED ON MIN DAYS AND MIN SEATS TO BE FILLED
+        var employeeNames = employees.map(e => e.name);
+
+        //
+        //
+            // Initialize variables
+        const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        const seatingAssignments = {};
+        const employeeDays = {};
+
+        // Initialize employeeDays
+        employeeNames.forEach(employee => {
+            employeeDays[employee] = 0;
+        });
+
+        // Check feasibility
+        const totalSeats = valid_seats.length * 5;
+        const requiredSeats = minSeats * 5;
+        const numEmployees = employeeNames.length;
+        const requiredDays = numEmployees * minDays;
+
+        if (requiredSeats > totalSeats || requiredDays > totalSeats || minSeats > numEmployees) {
+            // CHANGE TO ACTUAL DISPLAY ON SCREEN
+            console.log("Unable to fulfill");
+            setDisplayError("Unable to fulfill with current conditions. Change and try again.");
+            return;
+        }
+
+        // Assign seats
+        daysOfWeek.forEach(day => {
+            seatingAssignments[day] = [];
+            let availableEmployees = employeeNames.filter(employee => employeeDays[employee] < minDays);
+            if (availableEmployees.length == 0 || availableEmployees.length < minSeats){
+                availableEmployees = [...employeeNames];
+            }
+
+            for (let i = 0; i < minSeats; i++) {
+                const randomIndex = Math.floor(Math.random() * availableEmployees.length);
+                const selectedEmployee = availableEmployees[randomIndex];
+
+                seatingAssignments[day].push(selectedEmployee);
+                employeeDays[selectedEmployee] += 1;
+
+                // Remove selected employee from available list for that day
+                availableEmployees = availableEmployees.filter(employee => employee !== selectedEmployee);
+            }
+        });
+
+
+        // Check for unfulfilled requirements
+        console.log(employeeDays);
+        for (const [employee, days] of Object.entries(employeeDays)) {
+            if (days < minDays) {
+                console.log("Unable to fulfill");
+                setDisplayError("Unable to fulfill with current conditions. Change and try again.");
+                return;
+            }
+        }
+
+        // Update state or save to database
+        setDaybyDay(seatingAssignments);
+        console.log("Seating assignments:", seatingAssignments);
+
+        axios({
+            method: "POST",
+            url: "/indexed-seating/",
+            data: { indexed_array: indexed_array, valid_seats: valid_seats, min_days: minDays, min_seats: minSeats, day_by_day_seating: seatingAssignments }
+        }).then((response) => {
+            console.log("State saved successfully:", response.data);
+        }).catch((error) => {
+            console.error("Error saving seating chart state:", error.response.data);
+        });
+
+
+    };
+
+    const handleChangeMinSeats = (event) => {
+        setMinSeats(parseInt(event.target.value));
+    };
+
+    const handleChangeMinDays = (event) => {
+        setMinDays(parseInt(event.target.value));
     };
 
 
@@ -193,7 +298,19 @@ function SeatingChart() {
                     </div>
             </div>
             <div className="display-seating">
-                <button onClick={handleAssignSeating}>Assign Seating</button>
+                <div className="input&assign" style={{display: 'flex'}}>
+                    {/* Insert Input for min days, min seats filled */}
+                    <input type="number" onChange={handleChangeMinSeats} value={minSeats} />
+                    <input type="number" onChange={handleChangeMinDays} value={minDays} /> 
+                    <button onClick={handleAssignSeating}>Assign Seating</button>
+                </div>
+                <div style={{display:"flex"}}>
+                    <div style={{borderStyle:'dashed'}}>Min Number of Seats to be Filled: {minSeats}</div>
+                    <div style={{borderStyle:'dashed'}}>Min Number of Days to Come: {minDays}</div>
+                </div>
+                <div>
+                    {displayError}
+                </div>
                 <div className="assigned-seating-grid">
                     {indexedGrid && indexedGrid.map((row, rowIndex) => (
                     <div key={rowIndex} className="indexed-grid-row">
