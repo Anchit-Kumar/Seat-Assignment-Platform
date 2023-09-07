@@ -26,6 +26,7 @@ def employee(request):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['DELETE'])
 def employee_detail(request, pk):
     try:
@@ -36,6 +37,7 @@ def employee_detail(request, pk):
     if request.method == 'DELETE':
         employee.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 @api_view(['GET', 'POST'])
 def seating_chart_state(request):
@@ -69,3 +71,20 @@ def indexed_seating(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def update_employee_schedule(request):
+    if request.method == "POST":
+        name = request.data.get('name')
+        schedule = request.data.get('schedule')
+
+        try:
+            employee = Employees.objects.get(name=name)
+            employee.schedule = schedule  
+            employee.save()
+            return Response({"message": "Schedule updated successfully"}, status=status.HTTP_200_OK)
+        except Employees.DoesNotExist:
+            return Response({"error": "Employee not found"}, status=status.HTTP_404)
+
+    return Response({"error": "Invalid request"}, status=status.HTTP_400)

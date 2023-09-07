@@ -8,6 +8,7 @@ function Wednesday() {
     const [indexedGrid, setIndexedGrid] = useState();
     const [dayByDay, setDaybyDay] = useState({});
     const [validSeats, setValidSeats] = useState([]);
+    const [employeeSchedule, setEmployeeSchedule] = useState({});
 
     useEffect(() => {
         axios({
@@ -17,6 +18,7 @@ function Wednesday() {
                 setIndexedGrid(response.data.indexed_array);
                 setDaybyDay(response.data.day_by_day_seating || {});
                 setValidSeats(response.data.valid_seats || []);
+                setEmployeeSchedule(response.data.employee_schedule || {});
             }).catch((error) => {
                 console.error("Error fetching seating chart state:", error.response.data);
             });
@@ -66,11 +68,15 @@ function Wednesday() {
                 </div>
                 ))}
             </div>
-        <div style={{padding: '10px 20px'}}>
-            {mappedSeating.map((item, index) => (
-            <div key={index}>
-                Employee: {item.employee}, Seat Number: {item.seatNumber}
-            </div>
+            <div style={{padding: '10px 20px'}}>
+            {Object.entries(employeeSchedule).map(([employee, schedule]) => (
+                schedule.map((item) => (
+                    item.day === "Wednesday" && (
+                        <div key={employee}>
+                            Employee: {employee}, Seat Number: {item.seatNumber}
+                        </div>
+                    )
+                ))
             ))}
         </div>
       </div>

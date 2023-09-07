@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import front, employee, employee_detail, seating_chart_state, indexed_seating
+from core.views import front, employee, employee_detail, seating_chart_state, indexed_seating, update_employee_schedule
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -25,4 +25,5 @@ urlpatterns = [
     path("employees/<int:pk>/", employee_detail, name="detail"),
     path('seating-chart-state/', seating_chart_state, name='seating-chart-state'),
     path('indexed-seating/', indexed_seating, name='indexed-seating'),
+    path('update_employee_schedule/', update_employee_schedule, name='update_employee_schedule'),
 ]

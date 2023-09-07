@@ -12,7 +12,8 @@ function Employee() {
     const [formEmployee, setFormEmployee] = useState({
       name: null,
       seat_num: null,
-      days: null
+      days: null,
+      schedule: null
     })
     const [searchedEmployee, setSearchedEmployee] = useState("")
     const [displayEmployee, setDisplayEmployee] = useState()
@@ -44,7 +45,8 @@ function Employee() {
           data:{
             name: formEmployee.name,
             seat_num: formEmployee.seat_num,
-            days: formEmployee.days
+            days: formEmployee.days,
+            schedule: formEmployee.schedule,
            }
         })
         .then((response) => {
@@ -54,7 +56,8 @@ function Employee() {
         setFormEmployee(({
             name: "",
             seat_num: "",
-            days: ""}))
+            days: "",
+            schedule: ""}))
 
         event.preventDefault()
     }
@@ -104,6 +107,7 @@ function Employee() {
                 name="name"
                 value={formEmployee.name}
                 />
+                {/*
                 <input onChange={handleChange} 
                 type="number"
                 name="seat_num"
@@ -116,6 +120,7 @@ function Employee() {
                 placeholder="Days" 
                 value={formEmployee.days}
                 />
+                  */}
                 <button class="w3-button w3-circle w3-large w3-black"
                 onClick={createEmployee}><FontAwesomeIcon icon={faPlus} /></button>
                 </form>
@@ -143,6 +148,7 @@ function Employee() {
                               name={displayEmployee.name}
                               seat_num={displayEmployee.seat_num}
                               days={displayEmployee.days}
+                              seating={displayEmployee.schedule}
                               deletion={DeleteEmployee} />
                           </div>}
                       </div>
@@ -158,8 +164,7 @@ function Employee() {
                     key={employee.id}
                     id={employee.id}
                     name={employee.name}
-                    seat_num={employee.seat_num} 
-                    days={employee.days}
+                    seating={employee.schedule}
                     deletion ={DeleteEmployee}
                     />
                     </div>

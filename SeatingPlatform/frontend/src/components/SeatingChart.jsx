@@ -242,20 +242,65 @@ function SeatingChart() {
             }
         }
 
-        // Update state or save to database
+        const employeeSchedule = {};
+        const validSeatNumbers = Array.from({ length: valid_seats.length }, (_, i) => i + 1);
+
+        // Sort the arrays of employees in each day in seating assignments
+        Object.keys(seatingAssignments).forEach(day => {
+            seatingAssignments[day].sort();
+        });
+
+        // Shuffle the array
+        validSeatNumbers.sort(() => Math.random() - 0.5)
+
+        // Iterate through seatingAssignments to populate employeeSchedule
+        Object.entries(seatingAssignments).forEach(([day, employees]) => {
+            employees.forEach((employee, index) => {
+                if (!employeeSchedule[employee]) {
+                    employeeSchedule[employee] = [];
+                }
+                const seatNumber = validSeatNumbers[index]; 
+                employeeSchedule[employee].push({ day, seatNumber });
+            });
+        });
+        console.log("Employee Schedule:", employeeSchedule);
+
+        // Update state and save to database here
+
         setDaybyDay(seatingAssignments);
         console.log("Seating assignments:", seatingAssignments);
 
         axios({
             method: "POST",
             url: "/indexed-seating/",
-            data: { indexed_array: indexed_array, valid_seats: valid_seats, min_days: minDays, min_seats: minSeats, day_by_day_seating: seatingAssignments }
+            data: { indexed_array: indexed_array, valid_seats: valid_seats, min_days: minDays,
+                 min_seats: minSeats, day_by_day_seating: seatingAssignments, employee_schedule: employeeSchedule }
         }).then((response) => {
             console.log("State saved successfully:", response.data);
         }).catch((error) => {
             console.error("Error saving seating chart state:", error.response.data);
         });
 
+        const updateEmployeeScheduleInBackend = (employeeName, schedule) => {
+            axios({
+                method: "POST",
+                url: "/update_employee_schedule/",
+                data: {
+                name: employeeName,
+                schedule: schedule
+                },
+            })
+            .then(response => {
+                console.log(response.data.message);
+            })
+            .catch(error => {
+                console.error("Error updating employee schedule:", error);
+            });
+        }
+        
+        for (const [employee, days] of Object.entries(employeeSchedule)) {
+            updateEmployeeScheduleInBackend(employee, days);
+        }
 
     };
 
@@ -305,8 +350,8 @@ function SeatingChart() {
                     <button onClick={handleAssignSeating}>Assign Seating</button>
                 </div>
                 <div style={{display:"flex"}}>
-                    <div style={{borderStyle:'dashed'}}>Min Number of Seats to be Filled: {minSeats}</div>
-                    <div style={{borderStyle:'dashed'}}>Min Number of Days to Come: {minDays}</div>
+                    <div style={{borderStyle:'dashed', padding:'10px 10px'}}>Min Number of Seats to be Filled: {minSeats}</div>
+                    <div style={{borderStyle:'dashed', padding:'10px 10px'}}>Min Number of Days to Come: {minDays}</div>
                 </div>
                 <div>
                     {displayError}

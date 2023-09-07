@@ -6,6 +6,7 @@ class Employees(models.Model):
     name = models.CharField(max_length=60)
     seat_num = models.IntegerField()
     days = models.CharField(max_length=30)
+    schedule = models.JSONField(default=dict)
 
     def __str__(self):
         return self.name
@@ -26,3 +27,4 @@ class IndexedSeating(models.Model):
     day_by_day_seating = models.JSONField(default=dict)
     min_seats = models.IntegerField(default=0)
     min_days = models.IntegerField(default=0)
+    employee_schedule = models.JSONField(default=dict)
