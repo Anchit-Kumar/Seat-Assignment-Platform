@@ -4,8 +4,8 @@ import json
 # Create your models here.
 class Employees(models.Model):
     name = models.CharField(max_length=60)
-    seat_num = models.IntegerField()
-    days = models.CharField(max_length=30)
+    #seat_num = models.IntegerField()
+    #days = models.CharField(max_length=30)
     schedule = models.JSONField(default=dict)
 
     def __str__(self):

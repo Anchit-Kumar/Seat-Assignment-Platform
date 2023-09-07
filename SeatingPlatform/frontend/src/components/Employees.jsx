@@ -11,9 +11,7 @@ function Employee() {
     const [employees , setNewEmployees] = useState(null)
     const [formEmployee, setFormEmployee] = useState({
       name: null,
-      seat_num: null,
-      days: null,
-      schedule: null
+      schedule: [],
     })
     const [searchedEmployee, setSearchedEmployee] = useState("")
     const [displayEmployee, setDisplayEmployee] = useState()
@@ -44,8 +42,6 @@ function Employee() {
           url:"/employees/",
           data:{
             name: formEmployee.name,
-            seat_num: formEmployee.seat_num,
-            days: formEmployee.days,
             schedule: formEmployee.schedule,
            }
         })
@@ -55,9 +51,7 @@ function Employee() {
 
         setFormEmployee(({
             name: "",
-            seat_num: "",
-            days: "",
-            schedule: ""}))
+            schedule: []}))
 
         event.preventDefault()
     }
@@ -146,8 +140,6 @@ function Employee() {
                               key={displayEmployee.id}
                               id={displayEmployee.id}
                               name={displayEmployee.name}
-                              seat_num={displayEmployee.seat_num}
-                              days={displayEmployee.days}
                               seating={displayEmployee.schedule}
                               deletion={DeleteEmployee} />
                           </div>}

@@ -47,7 +47,7 @@ function Monday() {
       })) : [];
 
     return(
-    <div>
+    <div className="background-style">
       <div>
         <h1>Monday</h1>
       </div>

@@ -47,7 +47,7 @@ function Tuesday() {
       })) : [];
 
     return(
-    <div>
+    <div >
       <div>
         <h1>Tuesday</h1>
       </div>
